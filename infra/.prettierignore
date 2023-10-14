@@ -1,0 +1,12 @@
+# Prettier automatically ignores node_modules
+**/*.json
+**/*.md
+cdk.out/
+bin/**/*.js
+bin/**/*d.ts
+lib/**/*.js
+lib/**/*.d.ts
+src/**/*.js
+src/**/*.d.ts
+test/**/*.js
+test/**/*.d.ts

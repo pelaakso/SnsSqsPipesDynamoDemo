@@ -1,0 +1,39 @@
+{
+  "name": "aws-lambda-templates",
+  "version": "0.1.0",
+  "bin": {
+    "infra": "bin/infra.js"
+  },
+  "engines": {
+    "node": ">18.0.0 <19.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "all": "npm run clean && npx eslint . && npx prettier --check . && npm run test",
+    "build": "tsc --noEmit",
+    "clean": "npx rimraf '+(bin|lib|functions|test|utils)/**/+(*.d.ts|*.js)'",
+    "watch": "tsc -w",
+    "snap": "vitest",
+    "test": "npm run build && vitest run",
+    "cdk": "npx cdk"
+  },
+  "devDependencies": {
+    "@types/node": "^18.18.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "aws-cdk": "^2.101.0",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vitest": "^0.34.6"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.101.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  }
+}
