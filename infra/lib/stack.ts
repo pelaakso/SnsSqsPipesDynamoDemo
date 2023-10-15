@@ -7,6 +7,7 @@ import {
   DefinitionBody,
   JsonPath,
   LogLevel,
+  Map,
   Pass,
   StateMachine,
   StateMachineType,
@@ -78,21 +79,39 @@ export class PipesTestStack extends Stack {
       retention: RetentionDays.ONE_WEEK,
     });
 
+    // Input be like:
+    // {
+    //   "city": "Tampere",
+    //   "date": "yyyy-mm-dd",
+    //   "inspectTime": "yyyy-mm-ddThh:mm:ss",
+    //   "tempCelcius": 0.0,
+    //   "humidityPercent": 0.0,
+    // }
+
+    // PK: WDATA#CITY#Tampere#yyyy-mm-dd
+    const dynamoDbPutItem = new DynamoPutItem(this, 'DynamoPutItem', {
+      comment: 'Put item into DynamoDB table',
+      item: {
+        pk: DynamoAttributeValue.fromString(JsonPath.stringAt("States.Format('WDATA#CITY#{}#{}', $.city, $.date)")),
+        sk: DynamoAttributeValue.fromString(JsonPath.stringAt('$.inspectTime')),
+        type: DynamoAttributeValue.fromString('WeatherData'),
+        inspectTime: DynamoAttributeValue.fromString(JsonPath.stringAt('$.inspectTime')),
+        tempCelcius: DynamoAttributeValue.fromString(JsonPath.stringAt('$.tempCelcius')),
+        humidityPercent: DynamoAttributeValue.fromString(JsonPath.stringAt('$.humidityPercent')),
+      },
+      table: tbl,
+    });
+    const mapState = new Map(this, 'MapInputToDynamoDbPutItem', {
+      comment: 'Map input to DynamoDB PutItem task',
+      itemsPath: '$',
+      maxConcurrency: 1,
+    });
+    mapState.iterator(dynamoDbPutItem);
+
     const passState = new Pass(this, 'SelectBodyFromInput', {
       comment: 'Select body from input message',
       inputPath: '$..body',
-    }).next(
-      new DynamoPutItem(this, 'DynamoPutItem', {
-        comment: 'Put item into DynamoDB table',
-        item: {
-          pk: DynamoAttributeValue.fromString('test'),
-          sk: DynamoAttributeValue.fromString('test'),
-          type: DynamoAttributeValue.fromString('Test'),
-          myField: DynamoAttributeValue.fromString(JsonPath.stringAt('States.UUID()')),
-        },
-        table: tbl,
-      }),
-    );
+    }).next(mapState);
 
     const stateMachine = new StateMachine(this, 'PipesTestStateMachine', {
       definitionBody: DefinitionBody.fromChainable(passState),
