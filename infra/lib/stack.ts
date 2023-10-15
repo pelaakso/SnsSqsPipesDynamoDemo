@@ -71,7 +71,7 @@ export class PipesTestStack extends Stack {
       retention: RetentionDays.ONE_WEEK,
     });
 
-    const passState = new Pass(this, 'Pass', {
+    const passState = new Pass(this, 'SelectBodyFromInput', {
       comment: 'Select body from input message',
       inputPath: '$..body',
     }).next(
