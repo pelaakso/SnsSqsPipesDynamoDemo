@@ -7,8 +7,8 @@ import { LogLevel, Pass, StateMachine, StateMachineType } from 'aws-cdk-lib/aws-
 import { CfnPipe } from 'aws-cdk-lib/aws-pipes';
 import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { CallAwsService } from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { DynamoAttributeValue, DynamoPutItem } from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { AttributeType, Billing, TableClass, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 
 export interface Props extends StackProps {
   /**
@@ -29,8 +29,21 @@ export class PipesTestStack extends Stack {
   constructor(scope: Construct, id: string, props?: Props) {
     super(scope, id, props);
 
-    const s3bucket = new Bucket(this, 'PipesTestS3Bucket', {
-      bucketName: 'petrilaaksola-pipes-test',
+    const tbl = new TableV2(this, 'PipesTestTable', {
+      tableName: 'pipes-test-table',
+      partitionKey: {
+        name: 'pk',
+        type: AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'sk',
+        type: AttributeType.STRING,
+      },
+      billing: Billing.onDemand(),
+      deletionProtection: false,
+      pointInTimeRecovery: false,
+      tableClass: TableClass.STANDARD,
+      timeToLiveAttribute: 'ttl',
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
@@ -62,15 +75,13 @@ export class PipesTestStack extends Stack {
       comment: 'Select body from input message',
       inputPath: '$..body',
     }).next(
-      new CallAwsService(this, 'CallAwsService', {
-        service: 's3',
-        action: 'putObject',
-        parameters: {
-          'Body.$': '$',
-          Bucket: s3bucket.bucketName,
-          'Key.$': 'States.UUID()',
+      new DynamoPutItem(this, 'DynamoPutItem', {
+        item: {
+          pk: DynamoAttributeValue.fromString('test'),
+          sk: DynamoAttributeValue.fromString('test'),
+          type: DynamoAttributeValue.fromString('Test'),
         },
-        iamResources: [s3bucket.arnForObjects('*')],
+        table: tbl,
       }),
     );
 
