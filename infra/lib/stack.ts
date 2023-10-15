@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { SqsSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
-import { LogLevel, Pass, StateMachine, StateMachineType } from 'aws-cdk-lib/aws-stepfunctions';
+import { JsonPath, LogLevel, Pass, StateMachine, StateMachineType } from 'aws-cdk-lib/aws-stepfunctions';
 import { CfnPipe } from 'aws-cdk-lib/aws-pipes';
 import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -80,6 +80,7 @@ export class PipesTestStack extends Stack {
           pk: DynamoAttributeValue.fromString('test'),
           sk: DynamoAttributeValue.fromString('test'),
           type: DynamoAttributeValue.fromString('Test'),
+          myField: DynamoAttributeValue.fromString(JsonPath.stringAt('States.UUID()')),
         },
         table: tbl,
       }),
