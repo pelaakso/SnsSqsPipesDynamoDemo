@@ -163,26 +163,5 @@ export class PipesTestStack extends Stack {
       target: stateMachine.stateMachineArn,
       roleArn: pipeRole.roleArn,
     });
-
-    /*
-    new lambda.Function(this, 'BlankJavaWithPowertoolsGradle', {
-      code: props?.isUnitTest
-        ? lambda.Code.fromAsset('./test/resources/dummy-code.zip')
-        : lambda.Code.fromAsset(
-            '../java/blank-java-with-powertools/build/distributions/blank-java-with-powertools-0.0.1-SNAPSHOT-package.zip'
-          ),
-      handler: 'be.petey952.blankjavapowertools.Handler',
-      runtime: lambda.Runtime.JAVA_11,
-      architecture: lambda.Architecture.ARM_64,
-      memorySize: 512,
-      timeout: Duration.seconds(15),
-      environment: {
-        JAVA_TOOL_OPTIONS: '-XX:+TieredCompilation -XX:TieredStopAtLevel=1',
-        POWERTOOLS_SERVICE_NAME: 'BlankJavaTemplateWithPowertoolsGradle',
-      },
-      functionName: 'blank-java-template-with-powertools-gradle',
-      description: 'Blank Lambda template using Java with Powertools, Gradle build',
-    });
-    */
   }
 }
