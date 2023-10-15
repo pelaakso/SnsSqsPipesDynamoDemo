@@ -9,7 +9,7 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "all": "npm run clean && npx eslint . && npx prettier --check . && npm run test",
+    "all": "npx eslint . && npx prettier --check . && npm run test",
     "build": "tsc --noEmit",
     "clean": "npx rimraf '+(bin|lib|functions|test|utils)/**/+(*.d.ts|*.js)'",
     "watch": "tsc -w",
