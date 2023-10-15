@@ -76,6 +76,7 @@ export class PipesTestStack extends Stack {
       inputPath: '$..body',
     }).next(
       new DynamoPutItem(this, 'DynamoPutItem', {
+        comment: 'Put item into DynamoDB table',
         item: {
           pk: DynamoAttributeValue.fromString('test'),
           sk: DynamoAttributeValue.fromString('test'),
