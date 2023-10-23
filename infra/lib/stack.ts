@@ -160,6 +160,9 @@ export class PipesTestStack extends Stack {
           maximumBatchingWindowInSeconds: 45,
         },
       },
+      targetParameters: {
+        inputTemplate: '{ "body": <$.body> }',
+      },
       target: stateMachine.stateMachineArn,
       roleArn: pipeRole.roleArn,
     });
