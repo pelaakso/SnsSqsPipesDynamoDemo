@@ -96,8 +96,8 @@ export class PipesTestStack extends Stack {
         sk: DynamoAttributeValue.fromString(JsonPath.stringAt('$.inspectTime')),
         type: DynamoAttributeValue.fromString('WeatherData'),
         inspectTime: DynamoAttributeValue.fromString(JsonPath.stringAt('$.inspectTime')),
-        tempCelcius: DynamoAttributeValue.fromString(JsonPath.stringAt('$.tempCelcius')),
-        humidityPercent: DynamoAttributeValue.fromString(JsonPath.stringAt('$.humidityPercent')),
+        tempCelcius: DynamoAttributeValue.fromNumber(JsonPath.numberAt('$.tempCelcius')),
+        humidityPercent: DynamoAttributeValue.fromNumber(JsonPath.numberAt('$.humidityPercent')),
       },
       table: tbl,
     });
