@@ -84,11 +84,15 @@ export class PipesTestStack extends Stack {
     //   "city": "Tampere",
     //   "date": "yyyy-mm-dd",
     //   "inspectTime": "yyyy-mm-ddThh:mm:ss",
-    //   "tempCelcius": 0.0,
-    //   "humidityPercent": 0.0,
+    //   "tempCelcius": "0.0",
+    //   "humidityPercent": "0.0",
     // }
+    // Due to weird bugs in CDK, tempCelcius and humidityPercent must be strings.
+    // They will be written to DynamoDB as numbers.
+    // See https://github.com/aws/aws-cdk/issues/12456
 
     // PK: WDATA#CITY#Tampere#yyyy-mm-dd
+    // SK: yyyy-mm-ddThh:mm:ss
     const dynamoDbPutItem = new DynamoPutItem(this, 'DynamoPutItem', {
       comment: 'Put item into DynamoDB table',
       item: {
