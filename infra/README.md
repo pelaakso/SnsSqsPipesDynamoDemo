@@ -1,4 +1,4 @@
-# Infra for AWS Lambda templates
+# Infra
 
 Using:
 
