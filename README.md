@@ -41,7 +41,7 @@ npx cdk --profile your-profile deploy
 To send a message to the SNS topic, run the following command:
 
 ```bash
-aws --profile your-profile sns publish --topic-arn arn:aws:sns:<region>:<account_id>:pipes-test-sns --message --message '{"city": "Tampere", "date": "2023-10-15", "inspectTime": "2023-10-15T17:00:58+03:00", "tempCelcius": "5.1", "humidityPercent": "58"}'
+aws --profile your-profile sns publish --topic-arn arn:aws:sns:<region>:<account_id>:pipes-test-sns --message '{"city": "Tampere", "date": "2023-10-15", "inspectTime": "2023-10-15T17:00:58+03:00", "tempCelcius": "5.1", "humidityPercent": "58"}'
 ```
 
 To remove the stack, run the following command:
