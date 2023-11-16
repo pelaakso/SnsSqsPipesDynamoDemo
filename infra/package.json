@@ -5,8 +5,8 @@
     "infra": "bin/infra.js"
   },
   "engines": {
-    "node": ">18.0.0 <19.0.0",
-    "npm": ">=8.0.0"
+    "node": ">20.0.0 <21.0.0",
+    "npm": ">=10.0.0"
   },
   "scripts": {
     "all": "npx eslint . && npx prettier --check . && npm run test",
@@ -18,7 +18,7 @@
     "cdk": "npx cdk"
   },
   "devDependencies": {
-    "@types/node": "^18.18.9",
+    "@types/node": "^20.9.0",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "aws-cdk": "^2.109.0",
