@@ -1,5 +1,5 @@
 {
-  "name": "aws-lambda-templates",
+  "name": "snssqspipesdynamo-demo",
   "version": "0.1.0",
   "bin": {
     "infra": "bin/infra.js"
