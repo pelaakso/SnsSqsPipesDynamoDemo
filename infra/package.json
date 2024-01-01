@@ -13,8 +13,7 @@
     "build": "tsc --noEmit",
     "clean": "npx rimraf '+(bin|lib|functions|test|utils)/**/+(*.d.ts|*.js)'",
     "watch": "tsc -w",
-    "snap": "vitest",
-    "test": "npm run build && vitest run",
+    "test": "npm run build",
     "cdk": "npx cdk"
   },
   "devDependencies": {
@@ -27,9 +26,7 @@
     "eslint-plugin-prettier": "^5.1.2",
     "prettier": "^3.1.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "vite": "^4.5.1",
-    "vitest": "^0.34.6"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "aws-cdk-lib": "^2.117.0",
