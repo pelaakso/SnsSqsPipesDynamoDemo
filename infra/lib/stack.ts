@@ -9,6 +9,7 @@ import {
   LogLevel,
   Map,
   Pass,
+  ProcessorMode,
   StateMachine,
   StateMachineType,
 } from 'aws-cdk-lib/aws-stepfunctions';
@@ -110,7 +111,9 @@ export class PipesTestStack extends Stack {
       itemsPath: '$',
       maxConcurrency: 1,
     });
-    mapState.iterator(dynamoDbPutItem);
+    mapState.itemProcessor(dynamoDbPutItem, {
+      mode: ProcessorMode.INLINE,
+    });
 
     const passState = new Pass(this, 'SelectBodyFromInput', {
       comment: 'Select body from input message',
